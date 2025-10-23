@@ -13,6 +13,8 @@ create table produtos(
 id int primary key auto_increment,
 nome varchar(40) not null,
 descricao varchar(40) not null,
-preco int not null,
-quantidade int not null
+preco decimal not null,
+quantidade decimal not null
 );
+
+select * from CadastroProdutos;

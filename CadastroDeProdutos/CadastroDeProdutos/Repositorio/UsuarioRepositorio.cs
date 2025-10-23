@@ -1,4 +1,7 @@
-﻿namespace CadastroDeProdutos.Repositorio
+﻿using MySql.Data.MySqlClient;
+using System.Data;
+
+namespace CadastroDeProdutos.Repositorio
 {
     public class UsuarioRepositorio
     {
