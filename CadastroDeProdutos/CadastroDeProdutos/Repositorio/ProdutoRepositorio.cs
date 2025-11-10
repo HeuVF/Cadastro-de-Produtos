@@ -46,13 +46,14 @@ namespace CadastroDeProdutos.Repositorio
                     // Cria um novo comando SQL para atualizar dados na tabela 'cliente' com base no código
                     MySqlCommand cmd = new MySqlCommand("Update produto set Nome=@nome, Descricacao=@descricao, Preco=@preco, Quantidade=@quantidade " + " where id=@codigo ", conexao);
                     // Adiciona um parâmetro para o código do cliente a ser atualizado, definindo seu tipo e valor
-                    cmd.Parameters.Add("@codigo", MySqlDbType.Int32).Value = cliente.CodCli;
+                    cmd.Parameters.Add("@codigo", MySqlDbType.Int32).Value = produto.id;
                     // Adiciona um parâmetro para o novo nome, definindo seu tipo e valor
-                    cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = cliente.NomeCli;
+                    cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = produto.Nome;
                     // Adiciona um parâmetro para o novo telefone, definindo seu tipo e valor
-                    cmd.Parameters.Add("@telefone", MySqlDbType.VarChar).Value = cliente.TelCli;
+                    cmd.Parameters.Add("@descricao", MySqlDbType.VarChar).Value = produto.Descricao;
                     // Adiciona um parâmetro para o novo email, definindo seu tipo e valor
-                    cmd.Parameters.Add("@email", MySqlDbType.VarChar).Value = cliente.EmailCli;
+                    cmd.Parameters.Add("@preco", MySqlDbType.Decimal).Value = produto.Preco;
+                    cmd.Parameters.Add("@quantidade", MySqlDbType.Decimal).Value = produto.Quantidade;
                     // Executa o comando SQL de atualização e retorna o número de linhas afetadas
                     //executa e verifica se a alteração foi realizada
                     int linhasAfetadas = cmd.ExecuteNonQuery();
@@ -63,17 +64,17 @@ namespace CadastroDeProdutos.Repositorio
             catch (MySqlException ex)
             {
                 // Logar a exceção (usar um framework de logging como NLog ou Serilog)
-                Console.WriteLine($"Erro ao atualizar cliente: {ex.Message}");
+                Console.WriteLine($"Erro ao atualizar produto: {ex.Message}");
                 return false; // Retorna false em caso de erro
 
             }
         }
 
         // Método para listar todos os clientes do banco de dados
-        public IEnumerable<Cliente> TodosClientes()
+        public IEnumerable<Produto> TodosProdutos()
         {
             // Cria uma nova lista para armazenar os objetos Cliente
-            List<Cliente> Clientlist = new List<Cliente>();
+            List<Produto> Produtolist = new List<Produto>();
 
             // Bloco using para garantir que a conexão seja fechada e os recursos liberados após o uso
             using (var conexao = new MySqlConnection(_conexaoMySQL))
@@ -81,7 +82,7 @@ namespace CadastroDeProdutos.Repositorio
                 // Abre a conexão com o banco de dados MySQL
                 conexao.Open();
                 // Cria um novo comando SQL para selecionar todos os registros da tabela 'cliente'
-                MySqlCommand cmd = new MySqlCommand("SELECT * from cliente", conexao);
+                MySqlCommand cmd = new MySqlCommand("SELECT * from produto", conexao);
 
                 // Cria um adaptador de dados para preencher um DataTable com os resultados da consulta
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -96,22 +97,23 @@ namespace CadastroDeProdutos.Repositorio
                 foreach (DataRow dr in dt.Rows)
                 {
                     // Cria um novo objeto Cliente e preenche suas propriedades com os valores da linha atual
-                    Clientlist.Add(
-                                new Cliente
+                    Produtolist.Add(
+                                new Produto
                                 {
-                                    CodCli = Convert.ToInt32(dr["CodCli"]), // Converte o valor da coluna "codigo" para inteiro
-                                    NomeCli = ((string)dr["NomeCli"]), // Converte o valor da coluna "nome" para string
-                                    TelCli = ((string)dr["TelCli"]), // Converte o valor da coluna "telefone" para string
-                                    EmailCli = ((string)dr["EmailCli"]), // Converte o valor da coluna "email" para string
+                                    id = Convert.ToInt32(dr["id"]), // Converte o valor da coluna "codigo" para inteiro
+                                    Nome = ((string)dr["Nome"]), // Converte o valor da coluna "nome" para string
+                                    Descricao = ((string)dr["Descricacao"]), // Converte o valor da coluna "telefone" para string
+                                    Preco = ((decimal)dr["Preco"]),
+                                    Quantidade = ((decimal)dr["Quantidade"]),// Converte o valor da coluna "email" para string
                                 });
                 }
                 // Retorna a lista de todos os clientes
-                return Clientlist;
+                return Produtolist;
             }
         }
 
         // Método para buscar um cliente específico pelo seu código (Codigo)
-        public Cliente ObterCliente(int Codigo)
+        public Produto ObterProduto(int Codigo)
         {
             // Bloco using para garantir que a conexão seja fechada e os recursos liberados após o uso
             using (var conexao = new MySqlConnection(_conexaoMySQL))
@@ -119,7 +121,7 @@ namespace CadastroDeProdutos.Repositorio
                 // Abre a conexão com o banco de dados MySQL
                 conexao.Open();
                 // Cria um novo comando SQL para selecionar um registro da tabela 'cliente' com base no código
-                MySqlCommand cmd = new MySqlCommand("SELECT * from cliente where CodCli=@codigo ", conexao);
+                MySqlCommand cmd = new MySqlCommand("SELECT * from produto where id=@codigo ", conexao);
 
                 // Adiciona um parâmetro para o código a ser buscado, definindo seu tipo e valor
                 cmd.Parameters.AddWithValue("@codigo", Codigo);
@@ -130,7 +132,7 @@ namespace CadastroDeProdutos.Repositorio
                 // Declara um leitor de dados do MySQL
                 MySqlDataReader dr;
                 // Cria um novo objeto Cliente para armazenar os resultados
-                Cliente cliente = new Cliente();
+                Produto produto = new Produto();
 
                 /* Executa o comando SQL e retorna um objeto MySqlDataReader para ler os resultados
                 CommandBehavior.CloseConnection garante que a conexão seja fechada quando o DataReader for fechado*/
@@ -140,13 +142,14 @@ namespace CadastroDeProdutos.Repositorio
                 while (dr.Read())
                 {
                     // Preenche as propriedades do objeto Cliente com os valores da linha atual
-                    cliente.CodCli = Convert.ToInt32(dr["CodCli"]);//propriedade Codigo e convertendo para int
-                    cliente.NomeCli = (string)(dr["NomeCli"]); // propriedade Nome e passando string
-                    cliente.TelCli = (string)(dr["TelCli"]); //propriedade telefone e passando string
-                    cliente.EmailCli = (string)(dr["EmailCli"]); //propriedade email e passando string
+                    produto.id = Convert.ToInt32(dr["id"]);//propriedade Codigo e convertendo para int
+                    produto.Nome = (string)(dr["Nome"]); // propriedade Nome e passando string
+                    produto.Descricao = (string)(dr["Descricao"]); //propriedade telefone e passando string
+                    produto.Preco= (decimal)(dr["Preco"]); //propriedade email e passando string
+                    produto.Quantidade = (decimal)(dr["Quantidade"]);
                 }
                 // Retorna o objeto Cliente encontrado (ou um objeto com valores padrão se não encontrado)
-                return cliente;
+                return produto;
             }
         }
 
