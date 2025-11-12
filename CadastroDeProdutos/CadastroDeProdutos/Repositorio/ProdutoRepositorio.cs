@@ -113,7 +113,7 @@ namespace CadastroDeProdutos.Repositorio
             {
                 conexao.Open();
 
-                MySqlCommand cmd = new MySqlCommand("delete from cliente where id=@codigo", conexao);
+                MySqlCommand cmd = new MySqlCommand("delete from produto where id=@codigo", conexao);
 
                 cmd.Parameters.AddWithValue("@codigo", Id);
 
