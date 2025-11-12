@@ -5,14 +5,12 @@
 
 <h1 class="login-title">Login</h1>
 
-<form asp-action="Login" method="post" class="login-form">
+<form asp-controller="Usuario" asp-action="Login" method="post" class="login-form">
     <div class="form-group">
-        <label>Email:</label>
-        <input type="email" name="email" required class="form-control" />
+        <input type="email" name="Email" required class="form-control" placeholder="Email" />
     </div>
     <div class="form-group">
-        <label>Senha:</label>
-        <input type="password" name="senha" required class="form-control" />
+        <input type="password" name="Senha" required class="form-control" placeholder="Senha" />
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary login-btn">Entrar</button>
 </form>

@@ -1,7 +1,5 @@
 ﻿using CadastroDeProdutos.Models;
 using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI;
-using System.Configuration;
 using System.Data;
 
 namespace CadastroDeProdutos.Repositorio
@@ -36,7 +34,7 @@ namespace CadastroDeProdutos.Repositorio
                 using (var conexao = new MySqlConnection(_conexaoMySQL))
                 {
                     conexao.Open();
-                    MySqlCommand cmd = new MySqlCommand("Update produto set Nome=@nome, Descricacao=@descricao, Preco=@preco, Quantidade=@quantidade " + " where id=@codigo ", conexao);
+                    MySqlCommand cmd = new MySqlCommand("Update produto set Nome=@nome, Descricao=@descricao, Preco=@preco, Quantidade=@quantidade " + " where id=@codigo ", conexao);
                     cmd.Parameters.Add("@codigo", MySqlDbType.Int32).Value = produto.id;
                     cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = produto.Nome;
                     cmd.Parameters.Add("@descricao", MySqlDbType.VarChar).Value = produto.Descricao;
@@ -76,7 +74,7 @@ namespace CadastroDeProdutos.Repositorio
                                 {
                                     id = Convert.ToInt32(dr["id"]), 
                                     Nome = ((string)dr["Nome"]),
-                                    Descricao = ((string)dr["Descricacao"]),
+                                    Descricao = ((string)dr["Descricao"]),
                                     Preco = ((decimal)dr["Preco"]),
                                     Quantidade = ((decimal)dr["Quantidade"]),
                                 });
@@ -115,7 +113,7 @@ namespace CadastroDeProdutos.Repositorio
             {
                 conexao.Open();
 
-                MySqlCommand cmd = new MySqlCommand("delete from cliente where CodCli=@codigo", conexao);
+                MySqlCommand cmd = new MySqlCommand("delete from cliente where id=@codigo", conexao);
 
                 cmd.Parameters.AddWithValue("@codigo", Id);
 
