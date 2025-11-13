@@ -1,2 +1,75 @@
-﻿body {
+﻿.titulo-pro {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h4 {
+    color: #6c757d;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.col-md-4 {
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.control-label {
+    font-weight: bold;
+    color: #495057;
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+    .form-control[readonly] {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+
+.form-text {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.text-danger {
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.btn-primary {
+    width: 100%;
+}
+
+.mt-3 {
+    margin-top: 1.5rem;
+    display: block;
+    width: 100%;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
