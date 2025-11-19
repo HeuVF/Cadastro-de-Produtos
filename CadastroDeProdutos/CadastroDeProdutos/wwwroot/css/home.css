@@ -10,8 +10,20 @@
     right: 0;
 }
 
-form{
+body {
+ 
+    background-color: #6f9be1;
+}
 
-margin-top: 20%;
-background-color: white;
+.div1 {
+    margin-top: 5%;
+    color: #000000;
+}
+
+.div2 {
+    margin-top: 15%;
+}
+
+.htmldiv {
+    background-color: #6f9be1;
 }
